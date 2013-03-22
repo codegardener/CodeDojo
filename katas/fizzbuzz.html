@@ -79,8 +79,12 @@
 			<fieldset>
 				<legend>Input</legend>
 				<div class="control-group" id="group-1">
-					<label>Number</label>
+					<label>Number 1 <span class="label">(Required)</span></label>
 					<input id="input-number-1" type="text" placeholder="Type a natural number"><br>
+				</div>
+				<div class="control-group" id="group-2">
+					<label>Number 2</label>
+					<input id="input-number-2" type="text" placeholder="Type a natural number"><br>
 				</div>
 				<button id="btn-answer" type="submit" class="btn">Submit</button>
 			</fieldset>
@@ -123,26 +127,45 @@ $(document).ready(function(){
 
 		proceed = true;
 
-		var x1 = validateNaturalNumber($('#input-number-1').val(), "#group-1");
+		var x1 = $('#input-number-1').val();
+		var x2 = $('#input-number-2').val();
+		x1 = validateNaturalNumber(x1, "#group-1");
+		if (x2.length > 0) {
+			x2 = validateNaturalNumber(x2, "#group-2");
+		} else {
+			x2 = x1;
+		}
 		
 		if (proceed) {
-			$('#answer-paragraph').text(fizzbuzz(x1));
+			$('#answer-paragraph').html(fizzbuzz(x1, x2));
 		} else {
-			$('#answer-paragraph').text('');
+			$('#answer-paragraph').html('');
 		}
 	});
 });
 
-function fizzbuzz(number){
-	if (number % 15 == 0) {
-		return "fizzbuzz";
-	}else if (number % 3 == 0) {
-		return "fizz";
-	}else if (number % 5 == 0) {
-		return "buzz";
-	}else {
-		return number;
+function fizzbuzz(number1, number2){
+	if (number1 > number2){
+		var temp = number2;
+		number2 = number1;
+		number1 = temp;
 	}
+
+	var text = '';
+
+	for (var i = number1; i <= number2; i++) {
+		if (i % 15 == 0) {
+			text += "fizzbuzz<br>";
+		}else if (i % 3 == 0) {
+			text += "fizz<br>";
+		}else if (i % 5 == 0) {
+			text += "buzz<br>";
+		}else {
+			text += i + "<br>";
+		}
+	}
+
+	return text;
 }
 
 function validateNaturalNumber(input, group){
