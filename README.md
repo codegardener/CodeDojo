@@ -1,1 +1,4 @@
-h1. Code Dojo
+Code Dojo
+---------
+
+Because good code takes practice.
