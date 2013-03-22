@@ -78,8 +78,10 @@
 		<form>
 			<fieldset>
 				<legend>Input</legend>
-				<label>Number</label>
-				<input id="input-number" type="text" placeholder="Type a natural number"><br>
+				<div class="control-group" id="group-1">
+					<label>Number</label>
+					<input id="input-number-1" type="text" placeholder="Type a natural number"><br>
+				</div>
 				<button id="btn-answer" type="submit" class="btn">Submit</button>
 			</fieldset>
 		</form>
@@ -109,10 +111,25 @@
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
 
 		<script>
+var proceed = true;
+
 $(document).ready(function(){
 	$('#btn-answer').click(function(e){
 		e.preventDefault();
-		$('#answer-paragraph').text(fizzbuzz($('#input-number').val()));
+
+		// Cleanup any existing error messages
+		$('.control-group').removeClass('error');
+		$('.validation').remove();
+
+		proceed = true;
+
+		var x1 = validateNaturalNumber($('#input-number-1').val(), "#group-1");
+		
+		if (proceed) {
+			$('#answer-paragraph').text(fizzbuzz(x1));
+		} else {
+			$('#answer-paragraph').text('');
+		}
 	});
 });
 
@@ -126,6 +143,16 @@ function fizzbuzz(number){
 	}else {
 		return number;
 	}
+}
+
+function validateNaturalNumber(input, group){
+	var num = parseInt(input, 10);
+	if (isNaN(num) || num < 1) {
+		proceed = false;
+		$(group).addClass('error').append('<span class="label label-important validation">Please enter a natural number (integer 1 or greater)</span>');
+		return -1;
+	}
+	return num;
 }
 
 		</script>
