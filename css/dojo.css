@@ -12,6 +12,9 @@ body {
 #dojo-intro h1, #dojo-intro p {
 	color: #F5F5F5;
 }
+#instructions {
+	margin-top: 1em;
+}
 @media (max-width: 980px) {
 	/* Enable use of floated navbar text */
 	.navbar-text.pull-right {
