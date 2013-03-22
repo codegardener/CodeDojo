@@ -79,7 +79,7 @@
 			<fieldset>
 				<legend>Input</legend>
 				<label>Number</label>
-				<input type="text" placeholder="Type a natural number"><br>
+				<input id="input-number" type="text" placeholder="Type a natural number"><br>
 				<button id="btn-answer" type="submit" class="btn">Submit</button>
 			</fieldset>
 		</form>
@@ -87,6 +87,7 @@
 	<div class="span6">
 		<div id="answer" class="well">
 			<h3>Answer:</h3>
+			<p id="answer-paragraph"></p>
 		</div>
 	</div>
 </div>
@@ -106,5 +107,27 @@
 		
 		<script src="../js/jquery-1.9.1.min.js"></script>
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
+
+		<script>
+$(document).ready(function(){
+	$('#btn-answer').click(function(e){
+		e.preventDefault();
+		$('#answer-paragraph').text(fizzbuzz($('#input-number').val()));
+	});
+});
+
+function fizzbuzz(number){
+	if (number % 15 == 0) {
+		return "fizzbuzz";
+	}else if (number % 3 == 0) {
+		return "fizz";
+	}else if (number % 5 == 0) {
+		return "buzz";
+	}else {
+		return number;
+	}
+}
+
+		</script>
 	</body>
 </html>
