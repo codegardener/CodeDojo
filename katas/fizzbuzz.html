@@ -86,6 +86,14 @@
 					<label>Number 2</label>
 					<input id="input-number-2" type="text" placeholder="Type a natural number"><br>
 				</div>
+				<div class="control-group" id="group-3">
+					<label>Word Substitute 1 <span class="label">(Required)</span></label>
+					<input id="input-word-1" type="text" value="fizz"><br>
+				</div>
+				<div class="control-group" id="group-4">
+					<label>Word Substitute 2 <span class="label">(Required)</span></label>
+					<input id="input-word-2" type="text" value="buzz"><br>
+				</div>
 				<button id="btn-answer" type="submit" class="btn">Submit</button>
 			</fieldset>
 		</form>
@@ -129,22 +137,28 @@ $(document).ready(function(){
 
 		var x1 = $('#input-number-1').val();
 		var x2 = $('#input-number-2').val();
+		var word1 = $('#input-word-1').val();
+		var word2 = $('#input-word-2').val();
+
 		x1 = validateNaturalNumber(x1, "#group-1");
 		if (x2.length > 0) {
 			x2 = validateNaturalNumber(x2, "#group-2");
 		} else {
 			x2 = x1;
 		}
+
+		validateText(word1, "#group-3");
+		validateText(word2, "#group-4");
 		
 		if (proceed) {
-			$('#answer-paragraph').html(fizzbuzz(x1, x2));
+			$('#answer-paragraph').html(fizzbuzz(x1, x2, word1, word2));
 		} else {
 			$('#answer-paragraph').html('');
 		}
 	});
 });
 
-function fizzbuzz(number1, number2){
+function fizzbuzz(number1, number2, word1, word2){
 	if (number1 > number2){
 		var temp = number2;
 		number2 = number1;
@@ -155,11 +169,11 @@ function fizzbuzz(number1, number2){
 
 	for (var i = number1; i <= number2; i++) {
 		if (i % 15 == 0) {
-			text += "fizzbuzz<br>";
+			text += word1 + word2 + "<br>";
 		}else if (i % 3 == 0) {
-			text += "fizz<br>";
+			text += word1 + "<br>";
 		}else if (i % 5 == 0) {
-			text += "buzz<br>";
+			text += word2 + "<br>";
 		}else {
 			text += i + "<br>";
 		}
@@ -176,6 +190,15 @@ function validateNaturalNumber(input, group){
 		return -1;
 	}
 	return num;
+}
+
+function validateText(input, group){
+	if (!input) {
+		proceed = false;
+		$(group).addClass('error').append('<span class="label label-important validation">Please enter a word</span>');
+		return input;
+	}
+	return input;
 }
 
 		</script>
