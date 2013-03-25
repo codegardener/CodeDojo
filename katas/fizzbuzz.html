@@ -79,11 +79,11 @@
 			<fieldset>
 				<legend>Input</legend>
 				<div class="control-group" id="group-1">
-					<label>Number 1 <span class="label">(Required)</span></label>
+					<label>Range Number 1 <span class="label">(Required)</span></label>
 					<input id="input-number-1" type="text" placeholder="Type a natural number"><br>
 				</div>
 				<div class="control-group" id="group-2">
-					<label>Number 2</label>
+					<label>Range Number 2</label>
 					<input id="input-number-2" type="text" placeholder="Type a natural number"><br>
 				</div>
 				<div class="control-group" id="group-3">
@@ -91,9 +91,18 @@
 					<input id="input-word-1" type="text" value="fizz"><br>
 				</div>
 				<div class="control-group" id="group-4">
+					<label>Number to Substitute 1 <span class="label">(Required)</span></label>
+					<input id="input-substitute-1" type="text" value="3"><br>
+				</div>
+				<div class="control-group" id="group-5">
 					<label>Word Substitute 2 <span class="label">(Required)</span></label>
 					<input id="input-word-2" type="text" value="buzz"><br>
 				</div>
+				<div class="control-group" id="group-6">
+					<label>Number to Substitute 2 <span class="label">(Required)</span></label>
+					<input id="input-substitute-2" type="text" value="5"><br>
+				</div>
+
 				<button id="btn-answer" type="submit" class="btn">Submit</button>
 			</fieldset>
 		</form>
@@ -139,6 +148,8 @@ $(document).ready(function(){
 		var x2 = $('#input-number-2').val();
 		var word1 = $('#input-word-1').val();
 		var word2 = $('#input-word-2').val();
+		var y1 = $('#input-substitute-1').val();
+		var y2 = $('#input-substitute-2').val();
 
 		x1 = validateNaturalNumber(x1, "#group-1");
 		if (x2.length > 0) {
@@ -148,17 +159,19 @@ $(document).ready(function(){
 		}
 
 		validateText(word1, "#group-3");
-		validateText(word2, "#group-4");
+		y1 = validateNaturalNumber(y1, "#group-4");
+		validateText(word2, "#group-5");
+		y2 = validateNaturalNumber(y2, "#group-6");
 		
 		if (proceed) {
-			$('#answer-paragraph').html(fizzbuzz(x1, x2, word1, word2));
+			$('#answer-paragraph').html(fizzbuzz(x1, x2, word1, y1, word2, y2));
 		} else {
 			$('#answer-paragraph').html('');
 		}
 	});
 });
 
-function fizzbuzz(number1, number2, word1, word2){
+function fizzbuzz(number1, number2, word1, sub1, word2, sub2){
 	if (number1 > number2){
 		var temp = number2;
 		number2 = number1;
@@ -168,11 +181,11 @@ function fizzbuzz(number1, number2, word1, word2){
 	var text = '';
 
 	for (var i = number1; i <= number2; i++) {
-		if (i % 15 == 0) {
+		if ((i % sub1 == 0) && (i % sub2 == 0)) {
 			text += word1 + word2 + "<br>";
-		}else if (i % 3 == 0) {
+		}else if (i % sub1 == 0) {
 			text += word1 + "<br>";
-		}else if (i % 5 == 0) {
+		}else if (i % sub2 == 0) {
 			text += word2 + "<br>";
 		}else {
 			text += i + "<br>";
