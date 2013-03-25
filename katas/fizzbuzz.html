@@ -164,35 +164,50 @@ $(document).ready(function(){
 		y2 = validateNaturalNumber(y2, "#group-6");
 		
 		if (proceed) {
-			$('#answer-paragraph').html(fizzbuzz(x1, x2, word1, y1, word2, y2));
+			var numbers = buildArray(x1, x2);
+			numbers = fizzBuzzed(fizzBuzzed(numbers, y1, word1), y2, word2);
+
+			$('#answer-paragraph').html(function(){
+				var string = "";
+				for (var i = 0; i < numbers.length; i++)
+					string += numbers[i].text + "<br>";
+				return string;
+			});
 		} else {
 			$('#answer-paragraph').html('');
 		}
 	});
 });
 
-function fizzbuzz(number1, number2, word1, sub1, word2, sub2){
-	if (number1 > number2){
-		var temp = number2;
-		number2 = number1;
-		number1 = temp;
-	}
-
-	var text = '';
-
-	for (var i = number1; i <= number2; i++) {
-		if ((i % sub1 == 0) && (i % sub2 == 0)) {
-			text += word1 + word2 + "<br>";
-		}else if (i % sub1 == 0) {
-			text += word1 + "<br>";
-		}else if (i % sub2 == 0) {
-			text += word2 + "<br>";
-		}else {
-			text += i + "<br>";
+function fizzBuzzed(numbers, factor, sub) {
+	for (var i = 0; i < numbers.length; i++) {
+		var num = parseInt(numbers[i].number, 10);
+		if (num % factor == 0) {
+			if (numbers[i].number == numbers[i].text) {
+				numbers[i].text = sub;
+			} else {
+				numbers[i].text += sub;
+			}
 		}
 	}
 
-	return text;
+	return numbers;
+}
+
+function buildArray(first, last) {
+	// Make sure correct order
+	if (first > last) {
+		var temp = last;
+		last = first;
+		first = temp;
+	}
+
+	// Build an array of 'Number' objects
+	var numberArray = [];
+	for (var i = 0; i <= (last - first); i++) {
+		numberArray[i] = { number: first + i, text: first + i };
+	}
+	return numberArray;
 }
 
 function validateNaturalNumber(input, group){
