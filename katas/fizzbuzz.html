@@ -164,14 +164,18 @@ $(document).ready(function(){
 		y2 = validateNaturalNumber(y2, "#group-6");
 		
 		if (proceed) {
+			var answer = $('#answer-paragraph');
 			var numbers = buildArray(x1, x2);
+			
+			// fizzbuzz the array
 			numbers = fizzBuzzed(fizzBuzzed(numbers, y1, word1), y2, word2);
-
-			$('#answer-paragraph').html(function(){
-				var string = "";
-				for (var i = 0; i < numbers.length; i++)
-					string += numbers[i].text + "<br>";
-				return string;
+			
+			// clear the answer paragraph
+			answer.html('');
+			
+			// print out the array
+			$.each(numbers, function(index, val) {
+				answer.append(val.text + "<br>");
 			});
 		} else {
 			$('#answer-paragraph').html('');
